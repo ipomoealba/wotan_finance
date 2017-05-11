@@ -1,0 +1,121 @@
+{% extends "base.html" %} {% block title %}
+<title>獲利概況</title>
+{% endblock %} {% block main %}
+<!--./ Top Menu End -->
+<!--./ Gereral Subhead End -->
+<!--./ Top Menu End -->
+<div class="general-subhead">
+    <h3 id="beside-glyphicon-word">
+  <a href="javascript:history.back()"><i class="glyphicon glyphicon-chevron-left"></i></a>
+</h3>
+    <h1>獲利報告</h1>
+</div>
+<!--./ Gereral Subhead End -->
+<section>
+    <div class="new-container-fluid">
+        <div class="blog-single">
+            <div class="page-header">
+                <h1><strong>{{algorithm.title}}</strong></h1>
+            </div>
+            <br>
+            <div class="col-lg-2 col-md-2">
+            </div>
+            <div class="col-lg-8 col-md-8">
+                <!-- 這邊要放趨勢圖 -->
+                <img src="assets/img/blog/blog-single.jpg" class="img-rounded img-responsive " alt="" />
+                <br>
+                <br>
+                <hr>
+            </div>
+            <div class="col-lg-2 col-md-2">
+            </div>
+            <div class="row text-center pad-row">
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                    <div class="panel panel-success">
+                        <div class="panel-heading">
+                            <h4>本月購買人次</h4>
+                        </div>
+                        <div class="panel-body">
+                            <div class="round-body">
+                                <div class="price-main">
+                                    <span class="price-Unit">{{algorithm.this_month_times}}</span>
+                                    <small>次</small>
+                                </div>
+                            </div>
+                            <ul class="plan-two">
+                                <li><strong>上月購買人次：</strong>{{algorithm.last_month_times}}</li>
+                                <li><strong>成長幅度：</strong> {{algorithm.percents}}%</li>
+                                <li><strong>總購買人次：</strong> {{algorithm.times}}</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+                    <div class="panel  panel-info">
+                        <div class="panel-heading">
+                            <h4>淨收益</h4>
+                        </div>
+                        <div class="panel-body">
+                            <div class="round-body">
+                                <div class="price-main">
+                                    <span class="price-Unit"><i class="fa fa-dollar"></i> {{algorithm.salary}}</span>
+                                    <small>元</small>
+                                </div>
+                            </div>
+                            <ul class="plan-two ">
+                                <li><strong>上月收入：</strong> ${{algorithm.last_salary}} </li>
+                                <li><strong>成長幅度：</strong> {{algorithm.salary_percent}}% </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <h2 class="page-header"><strong>評論 :</strong></h2>
+            <div class="row blog-comments">
+                <div class="col-md-1 col-xs-1">
+                </div>
+                <div class="col-md-9 col-xs-9">
+                    <ul class="media-list">
+                      {% for commend in commends%}
+                      <li class="media">
+                          <a class="pull-left" href="#">
+                              <img class="media-object img-circle" src="assets/img/user2.png" alt="" />
+                          </a>
+                          <div class="media-body">
+                              <h4 class="media-heading">{{commend.name}}</h4>
+                              <p>
+                                  {{ commend.contain}}
+
+                              </p>
+                          </div>
+                      </li>
+                      <hr> {% endfor %}
+
+                        <li class="media">
+                            <a class="pull-left" href="#">
+                                <img class="media-object img-circle" src="assets/img/user2.png" alt="" />
+                            </a>
+                            <div class="media-body">
+                                <h4 class="media-heading">{{request.user.username}}</h4>
+                                <form action="/sales/response" method="post">
+                                    {% csrf_token %}
+                                    <div class="form-group">
+                                        <textarea name="message" id="message" required="required" class="form-control" rows="4" placeholder="Message"></textarea>
+                                        <input name='ac_id' id="ac_id" value="{{algorithm_info.code_id}}" type="hidden"></input>
+                                    </div>
+                                    <input type="submit" class="btn btn-primary" value="回應此主題" name="">
+                                </form>
+                                <!--
+                                <form action="">
+                                    <button type="submit" class="btn btn-primary">下架</button>
+                                </form>
+                              -->
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

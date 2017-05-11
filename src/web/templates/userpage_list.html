@@ -1,0 +1,142 @@
+{% extends "base.html" %} {% load staticfiles %} {% block title %}
+    <title>使用者頁面</title>
+{% endblock %} {% block othercss %}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.13/css/jquery.dataTables.css">
+    {#    <link rel="stylesheet"#}
+    {#          href="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.13/css/dataTables.bootstrap.css">#}
+{% endblock %}
+{% block main %}
+    <!--./ Social Div End -->
+    <div class="general-subhead">
+        <h3 id="beside-glyphicon-word">
+            <a href="javascript:history.back()"><i class="glyphicon glyphicon-chevron-left"></i></a>
+        </h3>
+        <h1>{{ username }}</h1>
+    </div>
+    <section>
+    <hr>
+        <div class="new-container-fluid" id="jQuery-tab">
+            <ul class="nav nav-pills clearfix">
+                <li role="presentation" class="active"><a data-toggle="pill" href="#tab1">已購買</a></li>
+                <li role="presentation"><a data-toggle="pill" href="#tab2">已上架</a></li>
+            </ul>
+            <br>
+            <!-- List Start -->
+            <div class="tab-content">
+                <!-- first page -->
+                <div id="tab1" class="content tab-pane active">
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12 col-xs-12">
+                            <table class="display table table-hover table-bordered" cellspacing="0" width="100%">
+                                <thead>
+                                <tr>
+                                    <th>演算法標題</th>
+                                    <th>說明</th>
+                                    <th>作者</th>
+                                    <th>定價</th>
+                                    <th>使用期限</th>
+                                    <th></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for thing in bought_list %}
+                                    <tr>
+                                        <td>
+                                            <a href="/sales/algorithm_info?algorithm_id={{ thing.code_id }}">{{ thing.algorithm_name }}</a>
+                                        </td>
+                                        <td>{{ thing.algorithm_info }}</td>
+                                        <td>{{ thing.seller }}</td>
+
+                                        <td>{{ thing.algorithm_price }}</td>
+                                        <td>{{ thing.endtime }}</td>
+                                        <td>
+                                            <button type="button" class="btn  btn-userpage  btn-primary">使用</button>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <!-- second page -->
+                <div id="tab2" class="content tab-pane ">
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12 col-xs-12">
+                            <table class="display table table-hover table-bordered" cellspacing="0" width="100%">
+                                <thead>
+                                <tr>
+                                    <th>演算法標題</th>
+                                    <th>說明</th>
+                                    <th>定價</th>
+                                    <th>最近更新時間</th>
+                                    <th></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for product in sales_list %}
+                                    <tr>
+
+                                        <td>
+                                            <a href="/sales/algorithm_info?algorithm_id={{ product.code_id }}">{{ product.title }}</a>
+                                        </td>
+                                        <td>{{ product.info }}</td>
+                                        <td>{{ product.unit_price }}</td>
+                                        <td>{{ product.last_update }}</td>
+                                        <td>
+                                            <form class="" action="/sales/sales_status" method="post">
+                                                {% csrf_token %}
+                                                <input type="hidden" name="aid" value="{{ product.sales_id }}">
+                                                <button type="submit" class="btn  btn-userpage  btn-primary">獲利狀況
+                                                </button>
+                                        </td>
+                                        </form>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %} {% block otherjs %}
+    <script src="https://cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js"></script>
+{#    <script src="https://cdn.datatables.net/1.10.13/js/dataTables.bootstrap.min.js"></script>#}
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('.display').DataTable({
+                "language": {
+                    "decimal": "",
+                    "emptyTable": "無任何資料",
+                    "lengthMenu": "每頁顯示 _MENU_ 行",
+                    "zeroRecords": "無資料",
+                    "info": "顯示 _PAGE_ 之 _PAGES_",
+                    "infoEmpty": "無記錄",
+                    "infoFiltered": "(filtered from _MAX_ total records)",
+                    "infoPostFix": "",
+                    "thousands": ",",
+                    "lengthMenu": "顯示 _MENU_ 欄位",
+                    "loadingRecords": "Loading...",
+                    "processing": "Processing...",
+                    "search": "搜尋關鍵字:",
+                    "zeroRecords": "沒有匹配的對象",
+                    "paginate": {
+                        "first": "第一頁",
+                        "last": "最後一頁",
+                        "next": "下一頁",
+                        "previous": "前一頁"
+                    },
+                    "aria": {
+                        "sortAscending": ": activate to sort column ascending",
+                        "sortDescending": ": activate to sort column descending"
+                    }
+                },
+                columnDefs: [{
+                    className: 'mdl-data-table__cell--non-numeric'
+                }]
+            });
+        });
+    </script>
+{% endblock %}

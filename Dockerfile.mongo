@@ -1,0 +1,4 @@
+FROM mongo:latest
+MAINTAINER Oscar Chen <oscar.chen.btw@gmail.com>
+RUN mkdir /backup
+ADD ./data/mongo-backup /backup

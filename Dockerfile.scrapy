@@ -1,0 +1,8 @@
+FROM python:2.7
+MAINTAINER Oscar Chen <oscar.chen.btw@gmail.com>
+ENV PYTHONUNBUFFERED 1
+RUN mkdir /config
+ADD /config/scrapy/requirements.txt /config/
+RUN pip install -r /config/requirements.txt && mkdir /src
+WORKDIR /src
+ADD ./src/spiders /src

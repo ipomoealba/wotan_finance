@@ -1,0 +1,115 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<!--[if lt IE 7 ]><html class="ie ie6" lang="zh-Hant-TW"> <![endif]-->
+<!--[if IE 7 ]><html class="ie ie7" lang="zh-Hant-TW"> <![endif]-->
+<!--[if IE 8 ]><html class="ie ie8" lang="zh-Hant-TW"> <![endif]-->
+<!--[if (gte IE 9)|!(IE)]><!-->
+<html lang="zh-Hant-TW">
+<!--<![endif]-->
+
+<head>
+    <meta charset="utf-8">
+    <!--[if IE]>
+       <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+       <![endif]-->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content=""> {% block title %}
+    <title>Wotan</title>
+    {% endblock %}
+    <link href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+    <!-- MetisMenu CSS -->
+    <link href="{% static 'vendor/metisMenu/metisMenu.min.css' %}" rel="stylesheet">
+    <!-- Custom Fonts -->
+    <link href="{% static 'vendor/font-awesome/css/font-awesome.min.css' %}" rel="stylesheet" type="text/css">
+    <!-- DataTables CSS -->
+    <link href="{% static 'vendor/datatables-plugins/dataTables.bootstrap.css' %}" rel="stylesheet">
+    <!-- DataTables Responsive CSS -->
+    <link href="{% static 'vendor/datatables-responsive/dataTables.responsive.css' %}" rel="stylesheet">
+    <!--  Font-Awesome Style -->
+    <link href="{% static 'assets/css/font-awesome.min.css' %}" rel="stylesheet" />
+    <!--  Font-Awesome Animation Style -->
+    <link href="{% static 'assets/css/font-awesome-animation.css' %}" rel="stylesheet" />
+    <!--  Pretty Photo Style -->
+    <link href="{% static 'assets/css/prettyPhoto.css' %}" rel="stylesheet" />
+    <!--  Google Font Style -->
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
+    <!--  Custom Style -->
+    <link href="{% static 'assets/css/style.css' %}" rel="stylesheet" />
+    <!-- Custom CSS -->
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+    {% block othercss %} {% endblock %}
+</head>
+
+<body>
+    <div class="navbar navbar-default navbar-fixed-top menu-back">
+        <div class="col-sm-1"></div>
+        {# logo in here #}
+        <div class="navbar-header col-sm-2">
+            <a class="navbar-brand" href="#">
+                <img src="{% static 'assets/img/logo.png' %}" class="navbar-brand-logo " alt="" />
+            </a>
+        </div>
+        {# logo end #}
+        <div class="col-sm-6"></div>
+        {# list here #}
+        <div class="navbar-collapse collapse col-sm-2">
+            <ul class="nav navbar-nav navbar-right">
+
+                <li class="dropdown">
+                    <a href="#">我的演算法 <i class="glyphicon glyphicon-pencil"></i>
+                          <span>Editor</span>
+                      </a>
+                </li>
+                <li class="dropdown">
+                    <a href="#">上架列表 <i class="glyphicon glyphicon-shopping-cart"></i>
+                          <span>Availables</span>
+                      </a>
+                </li>
+                <li class="dropdown">
+                    <a href="contact.html">聯絡我們 <i class="fa fa-globe"></i>
+                          <span>Contact</span>
+                      </a>
+
+                </li>
+                <li class="dropdown">
+                    <a href="">登入<i class="glyphicon glyphicon-user"></i>
+                          <span>Log in</span>
+                      </a>
+                    <ul class="dropdown-menu dropdown-menu-left">
+
+                        <li>
+                            <form>
+                                <label>帳號</label><input type="text">
+                                <label>密碼</label><input type="text">
+                                <button>登入</button>
+                                <span>replace this text</span>
+                            </form>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+        {# list end #}
+        <div class="col-sm-1"></div>
+    </div>
+    {% block main %} {% endblock %}
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/4.5.0/d3.min.js"></script>
+    <script src="{% static 'vendor/jquery/jquery.min.js' %}"></script>
+    <script src="{% static 'vendor/bootstrap/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'vendor/metisMenu/metisMenu.min.js' %}"></script>
+    <script src="{% static 'vendor/datatables/js/jquery.dataTables.min.js' %}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flot/0.8.3/jquery.flot.stack.js"></script>
+    <script src="{% static 'vendor/datatables-plugins/dataTables.bootstrap.min.js' %}"></script>
+    <script src="{% static 'vendor/datatables-responsive/dataTables.responsive.js' %}"></script>
+    <!--  Custom Scripts -->
+    <script src="{% static 'assets/js/custom.js' %}"></script>
+    {% block otherjs %} {% endblock %}
+</body>
+
+</html>

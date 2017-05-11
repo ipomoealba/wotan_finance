@@ -1,0 +1,133 @@
+{% extends "base.html" %}{% load staticfiles %} {% block title %}
+<title>Code Online</title>
+{% endblock %} {% block othercss %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.22.0/codemirror.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.10.0/theme/dracula.css">
+
+<style type="text/css">
+    .CodeMirror {
+        border-top: 1px;
+        border-bottom: 1px;
+        height: 80vh;
+    }
+
+    dt {
+        font-family: monospace;
+        color: #666;
+    }
+
+    .console {
+        height: 80vh;
+    }
+
+    .output-graph {
+        margin: 0px 5px 5px 5px;
+        height: 50%;
+        background-color: #d0e9c6;
+    }
+
+    .log_wrapper {
+        background-color: #0c0c0c;
+        height: 50%;
+        margin: 0px 5px 5px 5px;
+        padding: 5px 15px 5px 15px;
+    }
+
+    .log {
+        color: #d0e9c6;
+        font-size: 15px;
+    }
+
+    .control {
+        margin: 5px 5px 5px 0px;
+    }
+</style>
+
+{% endblock %} {% block main %}
+<br/>
+<div class="maintainer">
+    <div class="col-sm-12">
+        <div class="control">
+            <button type="button" id="send_code">Build</button>
+            <button type="button" id="save_code">Save</button>
+        </div>
+    </div>
+    <div class="col-sm-6">
+        <div>
+            <textarea id="code" name="code" overflow:auto;>{{ init }}</textarea>
+        </div>
+    </div>
+    <div class="console col-sm-6">
+        <div class="output-graph"></div>
+        <div class="log_wrapper">
+            <div class="log"></div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %} {% block otherjs %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.22.0/codemirror.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.22.0/mode/python/python.min.js"></script>
+<script src="{% static 'assets/js/active-line.js' %}"></script>
+<script type="text/javascript">
+    $(document).ready(function() {
+        var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
+            mode: "python",
+            lineNumbers: true,
+            indentUnit: 4,
+            // change line force
+            lineWrapping: true,
+            // cursorScrollMargin:0.5,
+            // cursorHeight:0.85,
+            extraKeys: {
+                "Ctrl-Space": function() {
+                    var cursor = editor.getCursor();
+                    var token = editor.getTokenTypeAt(cursor);
+                    if (token == "attribute") {
+                        editor.replaceSelection("=", "end");
+                    }
+                }
+            },
+            theme: 'dracula',
+            autofocus: true,
+            styleActiveLine: true,
+        });
+        // editor.setSize()
+        $("#send_code").click(function() {
+            $(".log").empty();
+            var code = editor.getValue();
+            $.ajax({
+                url: "/build",
+                type: "post",
+                dataType: "text",
+                data: {
+                    'code': code
+                },
+                success: function(data, status) {
+                    //alert("Data: " + data + "\nStatus: " + status);
+                    JSON.parse(data, function(k, v) {
+                        if (k == "output") {
+                            $(".log").append(v);
+                        } else {
+                            $(".log").append(v);
+                        }
+
+                    })
+
+                    console.log(data);
+                },
+
+            });
+            $.ajaxSetup({
+                data: {
+                    csrfmiddlewaretoken: '{{ csrf_token }}'
+                }
+            })
+        })
+    });
+</script>
+<script type="text/javascript">
+</script>
+{% endblock %}

@@ -1,0 +1,77 @@
+{% extends "base.html" %}{% load staticfiles %} {% block title %}
+<title>購買 | WOTAN</title>
+{% endblock %} {% block othercss %}
+<style type="text/css">
+    #check-remember {
+        text-align: center;
+    }
+</style>
+{% endblock %} {% block main %}
+<div class="general-subhead">
+    <h3 id="beside-glyphicon-word">
+         <a href="javascript:history.back()">
+         <i class="glyphicon glyphicon-chevron-left"></i>
+         </a>
+       </h3>
+    <h1>購買資訊</h1>
+</div>
+<section id="home-service">
+    <div class="new-container-fluid">
+        <br>
+        <br>
+        <form action="/sales/go_buying" method="post">
+          {% csrf_token %}
+            <div class="form-group row">
+                <div class="col-xs-2"></div>
+                <label class="col-xs-2 col-form-label">演算法名稱</label>
+                <div class="col-xs-7">
+                    <p>{{algorithm.name}}</p>
+                </div>
+            </div>
+            <br>
+            <div class="form-group row">
+                <div class="col-xs-2"></div>
+                <label class="col-xs-2 col-form-label">使用期限</label>
+                <div class="col-xs-3">
+                    <p>{{algorithm.deadline}}</p>
+                </div>
+            </div>
+            <br>
+            <div class="form-group row">
+                <div class="col-xs-2"></div>
+                <label class="col-xs-2 col-form-label">價格</label>
+                <div class="col-xs-3">
+                    <p>NTD$ {{algorithm.unit_price}} / 每月</p>
+                </div>
+            </div>
+            <hr>
+            <div class="form-group row">
+                <div class="col-xs-2"></div>
+                <label class="col-xs-2 col-form-label" for="cardnumber">信用卡號</label>
+                <div class="col-xs-4">
+                    <input class="form-control" id="cardnumber" type="text" placeholder="信用卡號">
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-xs-2"></div>
+                <label class="col-xs-2 col-form-label" for="goodthru-cvc">到期日 / 安全碼</label>
+                <div class="col-xs-2">
+                    <input class="form-control" id="goodthru" type="text" placeholder="MM/YY">
+                </div>
+                <div class="col-xs-2">
+                    <input class="form-control" id="cvc" type="text" placeholder="CVC">
+                </div>
+            </div>
+            <div class="row" id="check-remember">
+                <input class="form-check-input" type="checkbox" id="remember-mycard" checked> 記住我的付款資訊</input>
+            </div>
+            <br>
+            <div id="check-remember">
+                <div class="col-lg-12 col-md-12 col-sm-12">
+                    <input type="submit" class="btn btn-primary" value="確定購買" name="">
+                </div>
+            </div>
+        </form>
+    </div>
+</section>
+{% endblock %}

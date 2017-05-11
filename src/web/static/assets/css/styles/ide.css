@@ -1,0 +1,67 @@
+.img_output_graph {
+    padding: 5px 15px 5px 0px;
+    margin: 0px 5px 5px 5px;
+    height: 50%;
+}
+
+/* CodeMirror settings */
+.CodeMirror {
+    border-top: 1px;
+    /*border-bottom: 1px;*/
+    height: 80vh;
+}
+
+dt {
+    font-family: monospace;
+    color: #666;
+}
+
+/* output console settings */
+.console {
+    height: 80vh;
+}
+
+/* output graph settings */
+.output-graph {
+    padding: 5px 15px 5px 0px;
+    margin: 0px 5px 5px 5px;
+    height: 50%;
+    /*background-color: #d0e9c6;*/
+}
+
+
+
+/*responsive SVG */
+.svg-container {
+    display: inline-block;
+    position: relative;
+    width: 100%;
+    padding-bottom: 100%;
+    /* aspect ratio */
+    vertical-align: top;
+    overflow: hidden;
+}
+
+.svg-content-responsive {
+    display: inline-block;
+    position: absolute;
+    top: 10px;
+    left: 0;
+}
+
+/* output log settings */
+.log_wrapper {
+    background-color: #0c0c0c;
+    height: 50%;
+    margin: 0px 5px 5px 5px;
+    padding: 5px 15px 5px 15px;
+}
+
+.log {
+    color: #d0e9c6;
+    font-size: 15px;
+}
+
+.control {
+    margin: 5px 5px 5px 0px;
+}

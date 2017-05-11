@@ -1,0 +1,74 @@
+version: '2'
+
+services:
+  nginx:
+    image: nginx:latest
+    container_name: wotan_nginx
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./src/web:/src
+      - ./config/nginx:/etc/nginx/conf.d
+    depends_on:
+      - web
+
+  mongo:
+    build:
+      context: .
+      dockerfile: Dockerfile.mongo
+    container_name: wotan_mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - db_data:/var/lib/mongo
+    restart: always
+
+
+  db:
+    image: mysql:latest
+    ports:
+      - "3306:3306"
+    container_name: wotan_mysql
+    volumes:
+      - db_data:/var/lib/mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: admin
+      MYSQL_DATABASE: wotan
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: admin
+
+  web:
+    depends_on:
+      - db
+      - mongo
+    build:
+      context: .
+      dockerfile: Dockerfile.django
+    container_name: wotan_django
+    restart: always
+    volumes:
+      - ./src/web:/src
+    command: python manage.py runserver 0.0.0.0:8000
+    environment:
+      DB_HOST: db:3306
+    expose:
+      - "8000"
+
+  spider:
+    depends_on:
+      - mongo
+    build:
+      context: .
+      dockerfile: Dockerfile.scrapy
+    container_name: wotan_spider
+    restart: always
+    volumes:
+      - ./src/spiders:/src
+    working_dir: /src/yahooFinanceScrapy
+    command: scrapy crawl history
+    working_dir: /src/reuters
+    command: scrapy crawl business
+
+volumes:
+    db_data:

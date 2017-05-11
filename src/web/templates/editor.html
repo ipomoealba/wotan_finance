@@ -1,0 +1,201 @@
+{% extends "base.html" %}{% load staticfiles %} {% block title %}
+<title>Code Online</title>
+{% endblock %} {% block othercss %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.22.0/codemirror.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.10.0/theme/dracula.css">
+<link rel="stylesheet" href="{% static 'assets/css/styles/ide.css' %}">
+<link rel="stylesheet" href="{% static 'assets/css/styles/ide_loading.css' %}">
+<link rel="stylesheet" href="{% static 'assets/css/styles/init_animate.css' %}"> {% endblock %} {% block main %}
+<div class="general-subhead">
+    <h3 id="beside-glyphicon-word">
+            <a href="javascript:history.back()"><i class="glyphicon glyphicon-chevron-left"></i></a>
+        </h3>
+    <h1>編譯器</h1>
+</div>
+<section>
+    <div>
+        <div class="container-fluid">
+            <div class="col-sm-12">
+            </div>
+            <div class="col-sm-12">
+                <div class="col-sm-3">
+                    <div class="control">
+                        <div class="col-sm-6">
+                            <button class="btn btn-warning btn-block " type="button" id="send_code">Build</button>
+                        </div>
+                        <div class="col-sm-6">
+
+                            {% if request.user.is_authenticated %}
+                            <button class="btn btn-success btn-block" type="button" id="save_code">Save
+                                    </button> {% else %}
+                            <button class="btn btn-success btn-block" type="button" id="login">Save
+                                    </button> {% endif %}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-3">
+                    <div class="control">
+                        <input class="form-control" type="text" id="title" name="title" VALUE="新專案">
+                    </div>
+                </div>
+                <div class="col-sm-6"></div>
+            </div>
+            <div class="col-sm-6">
+                <div>
+                    <textarea id="code" name="code" overflow:auto;>{{ init }}</textarea>
+                </div>
+            </div>
+            <div class="console col-sm-6">
+                <!--
+                    <div id="graph" class="aGraph" style="position:absolute;top:0px;left:0; float:left;"></div>
+                  -->
+                <div id="graph" class="output-graph">
+                    {# <img class="img_output_graph" src="{% static 'cache/img/example_plot2.png' %}" alt="">#}
+                    <div class="img_output"></div>
+                    <div class="cssload-thecube">
+                        <div class="cssload-cube cssload-c1"></div>
+                        <div class="cssload-cube cssload-c2"></div>
+                        <div class="cssload-cube cssload-c4"></div>
+                        <div class="cssload-cube cssload-c3"></div>
+                    </div>
+                    <div class="cssload-dots">
+                        <div class="cssload-dot"></div>
+                        <div class="cssload-dot"></div>
+                        <div class="cssload-dot"></div>
+                        <div class="cssload-dot"></div>
+                        <div class="cssload-dot"></div>
+                    </div>
+
+                    <svg version="1.1" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <filter id="goo">
+                            <feGaussianBlur in="SourceGraphic" result="blur" stdDeviation="12"></feGaussianBlur>
+                            <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0	0 1 0 0 0	0 0 1 0 0	0 0 0 18 -7" result="goo"></feColorMatrix>
+                            <!--<feBlend in2="goo" in="SourceGraphic" result="mix" ></feBlend>-->
+                        </filter>
+                    </defs>
+                    </svg>
+                </div>
+
+                <div class="log_wrapper" style="overflow-y: scroll;">
+                    <div class="log"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %} {% block otherjs %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.22.0/codemirror.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.22.0/mode/python/python.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.8/d3.js"></script>
+<script src="{% static 'assets/js/active-line.js' %}"></script>
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        $(".log_wrapper").hide();
+        $(".cssload-thecube").hide();
+        var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
+            mode: "python",
+            lineNumbers: true,
+            indentUnit: 4,
+            // change line force
+            lineWrapping: true,
+            // cursorScrollMargin:0.5,
+            // cursorHeight:0.85,
+            extraKeys: {
+                "Ctrl-Space": function() {
+                    var cursor = editor.getCursor();
+                    var token = editor.getTokenTypeAt(cursor);
+                    if (token == "attribute") {
+                        editor.replaceSelection("=", "end");
+                    }
+                }
+            },
+            theme: 'dracula',
+            autofocus: true,
+            styleActiveLine: true,
+        });
+        $.ajaxSetup({
+            data: {
+                csrfmiddlewaretoken: '{{ csrf_token }}'
+            }
+        });
+        $("#save_code").click(function() {
+            var title = $('input[name="title"]').val();
+            var code = editor.getValue();
+            console.log(title)
+
+            $.ajax({
+                url: "/algorithm/save",
+                type: "post",
+                dataType: "text",
+                data: {
+                    'code': code,
+                    'title': title
+                },
+                success: function(data, status) {
+                    alert("Save success!")
+                }
+            });
+            // $.ajaxSetup({
+            //     data: {
+            //         csrfmiddlewaretoken: '{{ csrf_token }}'
+            //     }
+            // });
+        })
+        $("#login").click(function() {
+            alert("請先登入");
+        })
+        // editor.setSize()
+        $("#send_code").click(function() {
+            $(".img_output").empty();
+            $(".cssload-dots").hide();
+            $(".cssload-thecube").show();
+            $(".log_wrapper").show();
+
+            // $("#graph").append('')
+            var code = editor.getValue();
+            $.ajax({
+                url: "/algorithm/build",
+                type: "post",
+                dataType: "text",
+                data: {
+                    'code': code
+                },
+                success: function(data, status) {
+                    $(".cssload-thecube").hide();
+                    $(".log").empty();
+                    $(".img_output").empty();
+                    // var json_data = "{{ data|escapejs }}";
+                    //alert("Data: " + data + "\nStatus: " + status);
+                    JSON.parse(data, function(k, v) {
+                        if (k == "output") {
+                            $(".log").append(String(v));
+                        } else {
+                            $(".log").append(String(v));
+                        }
+                        if (k == "output_g") {
+                            console.log(v)
+                            $(".img_output").append('<img class="img_output_graph" style="max-width: 100%;max-height: 100%;" src="' + v + '" alt="">')
+                        }
+                        // console.log(v)
+                        //
+                        // // var data = d;
+                        // console.log(d)
+                        // console.log("d:" + JSON.parse(v));
+                        // console.log(output_g)
+                        // $(".output-graph").append('<img class="img_output_graph" src="'+ {% static "tmp/img/" %} '" alt="">')
+                    })
+
+
+                },
+
+            });
+
+        })
+    });
+</script>
+
+{% endblock %}

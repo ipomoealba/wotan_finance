@@ -1,0 +1,8 @@
+FROM python:3.5
+MAINTAINER Oscar Chen <oscar.chen.btw@gmail.com>
+ENV PYTHONUNBUFFERED 1
+RUN mkdir /config
+ADD /config/django/requirements.txt /config/
+RUN pip install -r /config/requirements.txt && mkdir /src
+WORKDIR /src
+ADD ./src/web /src

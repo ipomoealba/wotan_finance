@@ -1,0 +1,79 @@
+{% extends "base.html" %} {% load staticfiles %} {% block title %}
+    <title>上架列表 | WOTAN</title>
+{% endblock %} {% block othercss %}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.13/css/jquery.dataTables.css">
+    {#    <link rel="stylesheet"#}
+    {#          href="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.13/css/dataTables.bootstrap.css">  #}
+{% endblock %}
+{% block main %}
+    <div class="general-subhead">
+        <h3 id="beside-glyphicon-word">
+            <a href="javascript:history.back()"><i class="glyphicon glyphicon-chevron-left"></i></a>
+        </h3>
+        <h1>演算法</h1>
+    </div>
+    <!--./ Gereral Subhead End -->
+    <!-- 表格區 -->
+    <section>
+        <hr>
+    <hr>
+        <div class="new-container-fluid">
+            <div class="row">
+                <div class="col-lg-12 col-md-12 col-xs-12">
+                    <table class="table table-hover table-bordered" cellspacing="0" width="100%">
+                        <thead>
+                        <tr>
+                            <th>演算法標題</th>
+                            <th>說明</th>
+                            <th>作者</th>
+                            <th>購買次數</th>
+                            <th>最近更新時間</th>
+                            <th>定價</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for product in products %}
+                            <tr>
+                                <td>
+                                    <a href="/sales/algorithm_info?algorithm_id={{ product.code_id }}">
+                                        {{ product.title }}
+                                    </a>
+                                </td>
+
+                                <td>{{ product.info }}</td>
+                                <td>{{ product.editor }}</td>
+                                <td>{{ product.purchase_times }}</td>
+                                <td>{{ product.last_update }}</td>
+                                <td>${{ product.unit_price }}</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %} {% block otherjs %}
+    <script src="https://cdn.datatables.net/1.10.13/js/jquery.dataTables.min.js"></script>
+    {#    <script src="https://cdn.datatables.net/1.10.13/js/dataTables.bootstrap.min.js"></script>#}
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('.table').DataTable({
+                "language": {
+                    "lengthMenu": "每頁顯示 _MENU_ 行",
+                    "zeroRecords": "無資料",
+                    "info": "顯示 _PAGE_ 之 _PAGES_",
+                    "infoEmpty": "無記錄",
+                    "infoFiltered": "(filtered from _MAX_ total records)"
+                },
+                // scrollY: '50vh',
+                // scrollCollapse: true,
+                // paging: false,
+                columnDefs: [{
+                    // targets: [0, 1, 2],
+                    className: 'mdl-data-table__cell--non-numeric'
+                }]
+            });
+        });
+    </script>
+{% endblock %}
