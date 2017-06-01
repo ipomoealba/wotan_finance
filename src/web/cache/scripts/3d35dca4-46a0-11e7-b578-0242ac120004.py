@@ -19,7 +19,6 @@ from image_uploader import uploader
 # ============= up here need to hidden ==================
 import numpy as np
 
-# from dataset import fund, schedule
 from dataset.fund import fund
 from dataset.pipeline import basic_pipeline
 from dataset.schedule import Schedule
@@ -48,7 +47,7 @@ def get_data(schedule):
     """
     data = fund.fundDataset(schedule)
     daily_price = data.get_data("瑞聯UBAM全球新興市場債券基金美元 AD", "daily_price")
-    # fl = f.get_data("瑞聯UBAM全球新興市場債券基金美元 AD", "daily_fluctuation")
+    # fl = f.get_data("瑞聯UBAM全球新興市場債券基金美元 AD", "daily_fluctuation
     return daily_price
 
 
@@ -76,7 +75,6 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 #import matplotlib
 
-print(history_data)
 # from matplotlib import
 from operator import itemgetter
 history_data = sorted(history_data, key=itemgetter("date")) 

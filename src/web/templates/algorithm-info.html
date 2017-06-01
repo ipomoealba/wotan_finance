@@ -84,7 +84,7 @@
                         <!-- 如果是自己寫的演算法，不能購買就顯示下面這個disabled -->
                         {% ifnotequal request.user.id algorithm_info.editor_id %}
                         <input class="btn btn-lg btn-block btn-primary" type="submit" value="購買"> {% else %}
-                        <input class="btn btn-lg btn-block btn-primary" type="submit" value="購買" disabled> {% endifnotequal %}
+                        <input class="btn btn-lg btn-block btn-primary" type="submit" value="購買"> {% endifnotequal %}
                     </form>
                 </div>
             </div>

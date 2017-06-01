@@ -47,6 +47,8 @@ def product_list(request):
     sales = Sales.objects.filter(store_shelves=1)
     for sale in sales:
         code_id = sale.code_id
+        if sale.purchase_times == None:
+            sale.purchase_times = 0
         sale.last_update = Code.objects.get(code_id=code_id).last_update
         sale.editor = [
             u.username for u in User.objects.filter(id=sale.user_id)][0]
@@ -78,6 +80,8 @@ def sales_status(request):
         product.this_month_times = len(Bought.objects.filter(buytime__range=[
             datetime.datetime(now.year, now.month, 1), datetime.datetime(now.year, now.month, 28)],
             bought_algorithm=sales_id))
+        if product.purchase_times == None:
+            product.purchase_times = 0
         product.salary = product.unit_price * product.purchase_times
         product.last_month_times = len(product.last_month_status)
         product.last_salary = product.last_month_times * product.unit_price
