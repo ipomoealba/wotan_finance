@@ -1,7 +1,7 @@
 .img_output_graph {
-    padding: 5px 15px 5px 0px;
     margin: 0px 5px 5px 5px;
-    height: 50%;
+    /*height: 50%;*/
+    width: -moz-available;
 }
 
 /* CodeMirror settings */
@@ -23,7 +23,6 @@ dt {
 
 /* output graph settings */
 .output-graph {
-    padding: 5px 15px 5px 0px;
     margin: 0px 5px 5px 5px;
     height: 50%;
     /*background-color: #d0e9c6;*/

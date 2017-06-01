@@ -71,8 +71,16 @@ tmp_uuid = sys.argv[3]
 with open(data_file, 'w') as outfile:
     json.dump(final_data_stream, outfile, default=json_util.default)
 
+import matplotlib 
+matplotlib.use("Agg")
 import matplotlib.pyplot as plt
+#import matplotlib
+
+print(history_data)
 # from matplotlib import
+from operator import itemgetter
+history_data = sorted(history_data, key=itemgetter("date")) 
+final_data_stream = sorted(final_data_stream, key=itemgetter("date"))
 x_h_data = [dict(d)['date'] for d in history_data]
 y_h_data = [dict(d)['result'] for d in history_data]
 x_final_data = [dict(d)['date'] for d in final_data_stream]

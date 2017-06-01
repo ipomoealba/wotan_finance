@@ -151,7 +151,7 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 # login and register settings
-# LOGIN_REDIRECT_URL = '/'
+LOGIN_REDIRECT_URL = '/'
 REGISTRATION_OPEN = True
 ACCOUNT_ACTIVATION_DAYS = 7
 REGISTRATION_AUTO_LOGIN = True

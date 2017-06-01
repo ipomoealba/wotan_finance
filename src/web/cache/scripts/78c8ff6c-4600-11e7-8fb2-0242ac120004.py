@@ -1,4 +1,45 @@
-# ============= down here need to hidden ==================
+# -*- coding:utf8 -*-
+import sys
+import os
+import uuid
+from bson import json_util
+import json
+wot_parent = '../../wot/'
+tools_parent = '../../wot/tools'
+SCRIPT_DIR = os.path.dirname(os.path.realpath(
+    os.path.join(os.getcwd(), os.path.expanduser(__file__))))
+sys.path.append(os.path.normpath(os.path.join(SCRIPT_DIR, wot_parent)))
+sys.path.append(os.path.normpath(os.path.join(SCRIPT_DIR, tools_parent)))
+# print(sys.)
+# sys.path.append('../../wot/tools')
+# sys.path.append('/home/ipomoealba/Dropbox/Code/wotan2/wotan/wot')
+import dataset
+# import image_uploader
+from image_uploader import uploader
+# ============= up here need to hidden ==================
+#!/bin/python3
+# -*- encoding:utf-8 -*-
+import scipy
+import numpy
+from wot.dataset import fund, schedule
+
+
+def initialize():
+    s = schedule("20120101")
+    fd = fund(s)
+    print(fd.get_data("柏瑞環球動態資產配置基金 A"))
+
+
+def get_process():
+    pass
+
+
+def before_trading_start():
+    pass
+
+
+def pipeline():
+    pass# ============= down here need to hidden ==================
 history_data = basic_pipeline.pipeline(get_data(initialize()))
 final_data_stream = basic_pipeline.run_algorithm(
     algorithms, get_data(initialize()))
@@ -13,6 +54,7 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 #import matplotlib
 
+print(history_data)
 # from matplotlib import
 from operator import itemgetter
 history_data = sorted(history_data, key=itemgetter("date")) 

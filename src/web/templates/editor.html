@@ -150,7 +150,7 @@
         })
         // editor.setSize()
         $("#send_code").click(function() {
-            $(".img_output").empty();
+            $(".img_output_graph").remove();
             $(".cssload-dots").hide();
             $(".cssload-thecube").show();
             $(".log_wrapper").show();
@@ -167,18 +167,18 @@
                 success: function(data, status) {
                     $(".cssload-thecube").hide();
                     $(".log").empty();
-                    $(".img_output").empty();
+                    $(".img_output_graph").remove();
                     // var json_data = "{{ data|escapejs }}";
                     //alert("Data: " + data + "\nStatus: " + status);
                     JSON.parse(data, function(k, v) {
                         if (k == "output") {
                             $(".log").append(String(v));
-                        } else {
+                        } else if (k == "err") {
                             $(".log").append(String(v));
                         }
                         if (k == "output_g") {
                             console.log(v)
-                            $(".img_output").append('<img class="img_output_graph" style="max-width: 100%;max-height: 100%;" src="' + v + '" alt="">')
+                            $(".output-graph").prepend('<img class="img_output_graph" style="max-width: 100%;max-height: 100%;" src="' + v + '" alt="">')
                         }
                         // console.log(v)
                         //

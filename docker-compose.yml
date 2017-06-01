@@ -17,8 +17,6 @@ services:
       context: .
       dockerfile: Dockerfile.mongo
     container_name: wotan_mongo
-    ports:
-      - "27017:27017"
     volumes:
       - db_data:/var/lib/mongo
     restart: always
@@ -54,21 +52,5 @@ services:
       DB_HOST: db:3306
     expose:
       - "8000"
-
-  spider:
-    depends_on:
-      - mongo
-    build:
-      context: .
-      dockerfile: Dockerfile.scrapy
-    container_name: wotan_spider
-    restart: always
-    volumes:
-      - ./src/spiders:/src
-    working_dir: /src/yahooFinanceScrapy
-    command: scrapy crawl history
-    working_dir: /src/reuters
-    command: scrapy crawl business
-
 volumes:
     db_data:

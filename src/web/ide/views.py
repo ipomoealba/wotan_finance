@@ -83,7 +83,7 @@ def build(request):
         cache_file.close()
     tmp_uuid = str(uuid.uuid1())
     data_file = os.path.join("cache/data", tmp_uuid) + '.json'
-    photo_file = os.path.join("cache/img", tmp_uuid)
+    photo_file = os.path.join("static/cache/img", tmp_uuid)
     process = subprocess.Popen(
         ['python3',  filename, data_file, photo_file, tmp_uuid], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     out, err = process.communicate()
@@ -104,7 +104,7 @@ def build(request):
         'output': u''.join(str(out)),
         'err': u''.join(str(err)),
         'data': data,
-        'output_g': url
+        'output_g': "/" + u"".join(os.path.join("static/cache/img", tmp_uuid)) + ".png"
     }
     # return_dict = json.dumps(dict(return_dict))
     data_remove_files = glob.glob('cache/data/*.json')
