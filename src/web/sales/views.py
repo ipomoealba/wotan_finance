@@ -129,7 +129,8 @@ def post_algorithm(request):
         data_start = request.POST['data_start']
         data_end = request.POST['data_end']
         unit_price = request.POST['price']
-        s = Sales.objects.create(code_id=code_id,
+        if Sales.objects.get(code_id=code_id) == None:
+            s = Sales.objects.create(code_id=code_id,
                                  title=title, user_id=request.user.id,
                                  user_manual=um, data_start=data_start,
                                  data_end=data_end, info=info,
@@ -137,9 +138,21 @@ def post_algorithm(request):
                                  publish_date=datetime.datetime.now(),
                                  store_shelves=0
                                  )
-        return render(request, 'post_sucess.html', {'product': s})
 
-
+            return render(request, 'post_sucess.html', {'product': s})
+        else:
+            s = Sales.objects.get(code_id=code_id)
+            s.title=title
+            s.user_id=request.user.id
+            s.user_manual=um 
+            s.data_start=data_start
+            s.data_end=data_end
+            s.info=info
+            s.unit_price=unit_price
+            s.publish_date=datetime.datetime.now()
+            s.store_shelves=0
+            s.save()
+            return render(request, 'post_sucess.html', {'product': s})
 @login_required
 def post_success(request):
     if request.POST:
